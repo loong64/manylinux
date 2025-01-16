@@ -107,18 +107,21 @@ if [ "${AUDITWHEEL_POLICY}" == "manylinux2014" ]; then
 	fi
 	fixup-mirrors
 elif [ "${OS_ID_LIKE}" == "rhel" ]; then
-	BASE_TOOLS+=(glibc-locale-source glibc-langpack-en hardlink hostname libcurl libnsl libxcrypt which)
+	BASE_TOOLS+=(glibc-locale-source glibc-langpack-en hardlink hostname libcurl libnsl2 libxcrypt which)
 	echo "tsflags=nodocs" >> /etc/dnf/dnf.conf
 	dnf -y upgrade
-	dnf -y install dnf-plugins-core epel-release
-	if [ "${AUDITWHEEL_POLICY}" == "manylinux_2_28" ]; then
-		dnf config-manager --set-enabled powertools
-	else
-		dnf config-manager --set-enabled crb
-	fi
-	TOOLCHAIN_DEPS=(gcc-toolset-14-binutils gcc-toolset-14-gcc gcc-toolset-14-gcc-c++ gcc-toolset-14-gcc-gfortran)
-	if [ "${AUDITWHEEL_ARCH}" == "x86_64" ]; then
-		TOOLCHAIN_DEPS+=(yasm)
+	# dnf -y install dnf-plugins-core epel-release
+	# if [ "${AUDITWHEEL_POLICY}" == "manylinux_2_28" ]; then
+	# 	dnf config-manager --set-enabled powertools
+	# else
+	# 	dnf config-manager --set-enabled crb
+	# fi
+	# TOOLCHAIN_DEPS=(gcc-toolset-14-binutils gcc-toolset-14-gcc gcc-toolset-14-gcc-c++ gcc-toolset-14-gcc-gfortran)
+	# if [ "${AUDITWHEEL_ARCH}" == "x86_64" ]; then
+	# 	TOOLCHAIN_DEPS+=(yasm)
+	# fi
+	if [ "${AUDITWHEEL_ARCH}" == "loongarch64" ]; then
+		TOOLCHAIN_DEPS=(binutils gcc gcc-c++ gcc-gfortran)
 	fi
 elif [ "${OS_ID_LIKE}" == "alpine" ]; then
 	TOOLCHAIN_DEPS=(binutils gcc g++ gfortran)

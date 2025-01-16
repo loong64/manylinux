@@ -28,6 +28,7 @@ fi
 # shellcheck source=/dev/null
 OS_ID_LIKE=$(. /etc/os-release; echo "${ID} ${ID_LIKE:-}")
 case "${OS_ID_LIKE}" in
+	*opencloudos*) OS_ID_LIKE=rhel;;
 	*rhel*) OS_ID_LIKE=rhel;;
 	*alpine*) OS_ID_LIKE=alpine;;
 	*) echo "unsupported image"; exit 1;;

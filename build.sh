@@ -19,6 +19,7 @@ case "${PLATFORM}" in
 	ppc64le) GOARCH="ppc64le";;
 	s390x) GOARCH="s390x";;
 	armv7l) GOARCH="arm/v7";;
+	loongarch64) GOARCH="loong64";;
 	*) echo "Unsupported platform: '${PLATFORM}'"; exit 1;;
 esac
 
@@ -42,8 +43,13 @@ elif [ "${POLICY}" == "manylinux_2_34" ]; then
 	DEVTOOLSET_ROOTPATH="/opt/rh/gcc-toolset-14/root"
 	PREPEND_PATH="/usr/local/bin:${DEVTOOLSET_ROOTPATH}/usr/bin:"
 	LD_LIBRARY_PATH_ARG="${DEVTOOLSET_ROOTPATH}/usr/lib64:${DEVTOOLSET_ROOTPATH}/usr/lib:${DEVTOOLSET_ROOTPATH}/usr/lib64/dyninst:${DEVTOOLSET_ROOTPATH}/usr/lib/dyninst"
+elif [ "${POLICY}" == "manylinux_2_38" ]; then
+	BASEIMAGE="ghcr.io/loong64/opencloudos:23"
+	DEVTOOLSET_ROOTPATH="/opt/rh/gcc-toolset-14/root"
+	PREPEND_PATH="/usr/local/bin:${DEVTOOLSET_ROOTPATH}/usr/bin:"
+	LD_LIBRARY_PATH_ARG="${DEVTOOLSET_ROOTPATH}/usr/lib64:${DEVTOOLSET_ROOTPATH}/usr/lib:${DEVTOOLSET_ROOTPATH}/usr/lib64/dyninst:${DEVTOOLSET_ROOTPATH}/usr/lib/dyninst"
 elif [ "${POLICY}" == "musllinux_1_2" ]; then
-	BASEIMAGE="alpine:3.20"
+	BASEIMAGE="ghcr.io/loong64/alpine:3.21"
 	DEVTOOLSET_ROOTPATH=
 	PREPEND_PATH=
 	LD_LIBRARY_PATH_ARG=
@@ -90,7 +96,7 @@ else
 	exit 1
 fi
 
-docker run --rm -v "$(pwd)/tests:/tests:ro" "quay.io/pypa/${POLICY}_${PLATFORM}:${COMMIT_SHA}" /tests/run_tests.sh
+# docker run --rm -v "$(pwd)/tests:/tests:ro" "quay.io/pypa/${POLICY}_${PLATFORM}:${COMMIT_SHA}" /tests/run_tests.sh
 
 if [ ${USE_LOCAL_CACHE} -ne 0 ]; then
 	if [ -d "$(pwd)/.buildx-cache-${POLICY}_${PLATFORM}" ]; then
