@@ -7,5 +7,7 @@ patchelf==0.17.2.1 \
     --hash=sha256:ccb266a94edf016efe80151172c26cff8c2ec120a57a1665d257b0442784195d \
     --hash=sha256:d1a9bc0d4fd80c038523ebdc451a1cce75237cfcc52dbd1aca224578001d5927 \
     --hash=sha256:f47b5bdd6885cfb20abdd14c707d26eb6f499a7f52e911865548d4aa43385502 \
-    --hash=sha256:fc329da0e8f628bd836dfb8eaf523547e342351fa8f739bf2b3fe4a6db5a297c
+    --hash=sha256:fc329da0e8f628bd836dfb8eaf523547e342351fa8f739bf2b3fe4a6db5a297c \
+    --hash=sha256:2c85c7a4b51f3011109407a5944c546ef1367a47f1dcffa316e162892b895c5c \
+    --hash=sha256:7a68beb48f4bd189d2409e13f9297e8fa5854e01fe57c0fe4e659f875cb228a2
     # via -r .nox/update_python_dependencies/tmp/patchelf.in
