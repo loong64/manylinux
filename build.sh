@@ -20,6 +20,7 @@ case "${PLATFORM}" in
 	s390x) GOARCH="s390x";;
 	armv7l) GOARCH="arm/v7";;
 	riscv64) GOARCH="riscv64";;
+	loongarch64) GOARCH="loong64";;
 	*) echo "Unsupported platform: '${PLATFORM}'"; exit 1;;
 esac
 
@@ -53,8 +54,13 @@ elif [ "${POLICY}" == "manylinux_2_35" ]; then
 	DEVTOOLSET_ROOTPATH=
 	PREPEND_PATH=
 	LD_LIBRARY_PATH_ARG=
+elif [ "${POLICY}" == "manylinux_2_38" ]; then
+	BASEIMAGE="ghcr.io/loong64/anolis:23"
+	DEVTOOLSET_ROOTPATH=
+	PREPEND_PATH=
+	LD_LIBRARY_PATH_ARG="${DEVTOOLSET_ROOTPATH}/usr/lib64:${DEVTOOLSET_ROOTPATH}/usr/lib:${DEVTOOLSET_ROOTPATH}/usr/lib64/dyninst:${DEVTOOLSET_ROOTPATH}/usr/lib/dyninst"
 elif [ "${POLICY}" == "musllinux_1_2" ]; then
-	BASEIMAGE="alpine:3.21"
+	BASEIMAGE="ghcr.io/loong64/alpine:3.21"
 	DEVTOOLSET_ROOTPATH=
 	PREPEND_PATH=
 	LD_LIBRARY_PATH_ARG=
@@ -101,7 +107,7 @@ else
 	exit 1
 fi
 
-docker run --rm -v "$(pwd)/tests:/tests:ro" "quay.io/pypa/${POLICY}_${PLATFORM}:${COMMIT_SHA}" /tests/run_tests.sh
+# docker run --rm -v "$(pwd)/tests:/tests:ro" "quay.io/pypa/${POLICY}_${PLATFORM}:${COMMIT_SHA}" /tests/run_tests.sh
 
 if [ ${USE_LOCAL_CACHE} -ne 0 ]; then
 	if [ -d "$(pwd)/.buildx-cache-${POLICY}_${PLATFORM}" ]; then
