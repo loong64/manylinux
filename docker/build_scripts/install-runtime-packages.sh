@@ -130,6 +130,8 @@ elif [ "${OS_ID_LIKE}" == "rhel" ]; then
 		TOOLCHAIN_DEPS+=(yasm)
 	fi
 	if [ "${AUDITWHEEL_ARCH}" == "loongarch64" ]; then
+		dnf -y install dnf-plugins-core
+		dnf -y install cracklib-dicts dejavu-sans-fonts environment-modules info jansson libpciaccess-devel pcre-devel perl-FindBin perl-IO-Socket-SSL perl-Mozilla-CA perl-NDBM_File perl-subs policycoreutils-python-utils valgrind-devel yasm
 		TOOLCHAIN_DEPS=(binutils gcc gcc-c++ gcc-gfortran libatomic-static)
 	fi
 elif [ "${OS_ID_LIKE}" == "debian" ]; then

@@ -55,7 +55,7 @@ elif [ "${POLICY}" == "manylinux_2_35" ]; then
 	PREPEND_PATH=
 	LD_LIBRARY_PATH_ARG=
 elif [ "${POLICY}" == "manylinux_2_38" ]; then
-	BASEIMAGE="ghcr.io/loong64/anolis:23"
+	BASEIMAGE="ghcr.io/loong64/opencloudos:23"
 	DEVTOOLSET_ROOTPATH=
 	PREPEND_PATH=
 	LD_LIBRARY_PATH_ARG="${DEVTOOLSET_ROOTPATH}/usr/lib64:${DEVTOOLSET_ROOTPATH}/usr/lib:${DEVTOOLSET_ROOTPATH}/usr/lib64/dyninst:${DEVTOOLSET_ROOTPATH}/usr/lib/dyninst"
