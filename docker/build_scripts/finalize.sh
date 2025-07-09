@@ -80,13 +80,18 @@ export SSL_CERT_FILE=/opt/_internal/certs.pem
 /opt/python/cp312-cp312/bin/python -m pip download --dest /tmp/pinned-wheels --require-hashes -r /opt/_internal/build_scripts/requirements3.12.txt
 pipx upgrade-shared --pip-args="--no-index --find-links=/tmp/pinned-wheels"
 
+PIPY_REPOSITORY="https://pypi.org/simple"
+if [ "${AUDITWHEEL_ARCH}" == "loongarch64" ]; then
+	PIPY_REPOSITORY="https://gitlab.com/api/v4/projects/65746188/packages/pypi/simple"
+fi
+
 # install other tools with pipx
 for TOOL_PATH in "${MY_DIR}/requirements-tools/"*; do
 	TOOL=$(basename "${TOOL_PATH}")
 	case ${AUDITWHEEL_PLAT}-${TOOL} in
 		musllinux*_ppc64le-uv) continue;;  # uv doesn't provide musl ppc64le wheels due to Rust issues
 		musllinux*_s390x-uv) continue;;  # uv doesn't provide musl s390x wheels due to Rust issues
-		*) pipx install --pip-args="--require-hashes -r ${TOOL_PATH} --only-binary" "${TOOL}";;
+		*) pipx install --pip-args="--require-hashes -r ${TOOL_PATH} --only-binary" "${TOOL}" --index-url "${PIPY_REPOSITORY}";;
 	esac
 done
 
@@ -105,6 +110,6 @@ LC_ALL=C "${MY_DIR}/update-system-packages.sh"
 "${MY_DIR}/install-gcc-wrapper.sh"
 
 # patch libstdc++.so  (see https://github.com/pypa/manylinux/issues/1760)
-if [ "${AUDITWHEEL_POLICY}" == "manylinux_2_28" ] || [ "${AUDITWHEEL_POLICY}" == "manylinux_2_34" ]; then
+if [ "${AUDITWHEEL_POLICY}" == "manylinux_2_28" ] || [ "${AUDITWHEEL_POLICY}" == "manylinux_2_34" ] || [ "${AUDITWHEEL_POLICY}" == "manylinux_2_38" ]; then
 	find "${DEVTOOLSET_ROOTPATH}" -name 'libstdc++.so' -exec sed -i 's/INPUT\s*(\s*\([^ ]\+\)\s*\([^ ]\+\)\s*)/INPUT ( \1 \2 \1 )/g' {} \;
 fi
