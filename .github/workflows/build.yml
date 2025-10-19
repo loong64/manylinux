@@ -52,13 +52,7 @@ jobs:
           import os
           import json
           reduced = [
-              ("x86_64", "ubuntu-24.04", ("manylinux2014", "manylinux_2_28", "manylinux_2_34", "musllinux_1_2")),
-              ("aarch64", "ubuntu-24.04-arm", ("manylinux2014", "manylinux_2_28", "manylinux_2_34", "manylinux_2_39", "musllinux_1_2")),
-              ("i686", "ubuntu-24.04", ("manylinux2014", "manylinux_2_28", "manylinux_2_34", "musllinux_1_2")),
-              ("armv7l", "ubuntu-24.04-arm", ("manylinux_2_31", "manylinux_2_35", "musllinux_1_2")),
-              ("ppc64le", "ubuntu-24.04", ("manylinux2014", "manylinux_2_28", "manylinux_2_34", "musllinux_1_2")),
-              ("riscv64", "ubuntu-24.04", ("manylinux_2_39", "musllinux_1_2")),
-              ("s390x", "ubuntu-24.04", ("manylinux2014", "manylinux_2_28", "manylinux_2_34", "musllinux_1_2")),
+              ("loongarch64", "ubuntu-24.04", ("manylinux_2_38", "musllinux_1_2",)),
           ]
           expanded = [{"policy": policy, "platform": platform, "runner": runner} for platform, runner, policies in reduced for policy in policies]
           print(json.dumps(expanded, indent=2))
@@ -89,14 +83,13 @@ jobs:
           persist-credentials: false
 
       - name: Set up QEMU
-        if: matrix.platform == 'ppc64le' || matrix.platform == 'riscv64' || matrix.platform == 's390x'
+        if: matrix.platform == 'loongarch64' || matrix.platform == 'ppc64le' || matrix.platform == 'riscv64' || matrix.platform == 's390x'
         uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 
       - name: Login to GitHub Container Registry
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'pypa/manylinux'
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           registry: ghcr.io
@@ -107,11 +100,7 @@ jobs:
         run: ./build.sh
 
       - name: Deploy
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'pypa/manylinux'
         run: ./deploy.sh
-        env:
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
   all_passed:
     if: always()
