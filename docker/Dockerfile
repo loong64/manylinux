@@ -154,7 +154,7 @@ RUN --mount=type=bind,from=static_clang,target=/tmp/cross-compiler,ro \
     /tmp/cross-compiler/entrypoint /opt/_internal/build_scripts/build-zstd.sh
 
 
-FROM --platform=${BUILDPLATFORM} ghcr.io/sigstore/cosign/cosign:v${MANYLINUX_COSIGN_VERSION} AS cosign-bin
+FROM --platform=${BUILDPLATFORM} ghcr.io/loong64/cosign/cosign:v${MANYLINUX_COSIGN_VERSION} AS cosign-bin
 
 
 FROM build_base_openssl AS build_cpython
