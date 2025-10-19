@@ -19,13 +19,12 @@ fi
 BUILD_NUMBER=$(git rev-list "--since=${COMMIT_DATE}T00:00:00Z" --first-parent --count "${COMMIT_SHA}")
 BUILD_ID=${COMMIT_DATE//-/.}-${BUILD_NUMBER}  # This should be a version like tag to allow dependabot updates
 
-docker tag "${TAG}:${COMMIT_SHA}" "${TAG}:${BUILD_ID}"
-docker tag "${TAG}:${COMMIT_SHA}" "${TAG}:latest"
+docker tag "${TAG}:${COMMIT_SHA}" "ghcr.io/loong64/${POLICY}_${PLATFORM}:${BUILD_ID}"
+docker tag "${TAG}:${COMMIT_SHA}" "ghcr.io/loong64/${POLICY}_${PLATFORM}:latest"
 
 set +x
 
 if [ $DRY_RUN -eq 0 ]; then
-  docker login -u "${QUAY_USERNAME}" -p "${QUAY_PASSWORD}" quay.io
-  docker push "${TAG}:${BUILD_ID}"
-  docker push "${TAG}:latest"
+  docker push "ghcr.io/loong64/${POLICY}_${PLATFORM}:${BUILD_ID}"
+  docker push "ghcr.io/loong64/${POLICY}_${PLATFORM}:latest"
 fi
