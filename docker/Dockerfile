@@ -141,7 +141,7 @@ RUN --mount=type=bind,from=static_clang,target=/tmp/cross-compiler,ro \
     /tmp/cross-compiler/entrypoint /build_scripts/build-mpdecimal.sh
 
 
-FROM --platform=${BUILDPLATFORM} ghcr.io/sigstore/cosign/cosign:v${MANYLINUX_COSIGN_VERSION} AS cosign-bin
+FROM --platform=${BUILDPLATFORM} ghcr.io/loong64/cosign/cosign:v${MANYLINUX_COSIGN_VERSION} AS cosign-bin
 
 
 FROM build_base AS build_cpython

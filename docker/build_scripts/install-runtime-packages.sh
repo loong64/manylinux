@@ -115,12 +115,16 @@ if [ "${AUDITWHEEL_POLICY}" == "manylinux2014" ]; then
 	fi
 	fixup-mirrors
 elif [ "${OS_ID_LIKE}" == "rhel" ]; then
-	BASE_TOOLS+=(glibc-locale-source glibc-langpack-en gnupg2 gzip hardlink hostname libcurl libnsl libxcrypt which)
+	BASE_TOOLS+=(glibc-locale-source glibc-langpack-en gnupg2 gzip hardlink hostname libcurl libnsl2 libxcrypt which)
 	echo "tsflags=nodocs" >> /etc/dnf/dnf.conf
 	dnf -y upgrade
 	EPEL=epel-release
 	if [ "${AUDITWHEEL_ARCH}" == "i686" ] || [ "${AUDITWHEEL_ARCH}" == "riscv64" ]; then
 		EPEL=
+	elif [ "${AUDITWHEEL_ARCH}" == "loongarch64" ]; then
+	    EPEL=anolis-epao-release
+		BASE_TOOLS+=(attr jansson keyutils)
+        curl -fsSLo /etc/yum.repos.d/anolis-crb.repo https://github.com/loong64/container-images/raw/805ba27783e72d199ce5c8d7d75b7e1119b41e0b/Containerfiles/23/anolis-crb.repo
 	fi
 	dnf -y install dnf-plugins-core ${EPEL}
 	if [ "${AUDITWHEEL_POLICY}" == "manylinux_2_28" ]; then
@@ -128,12 +132,15 @@ elif [ "${OS_ID_LIKE}" == "rhel" ]; then
 	else
 		dnf config-manager --set-enabled crb
 	fi
-	if [ "${AUDITWHEEL_POLICY}" == "manylinux_2_28" ] || [ "${AUDITWHEEL_POLICY}" == "manylinux_2_34" ]; then
+	if [ "${AUDITWHEEL_POLICY}" == "manylinux_2_28" ] || [ "${AUDITWHEEL_POLICY}" == "manylinux_2_34" ] || [ "${AUDITWHEEL_POLICY}" == "manylinux_2_38" ]; then
 		TOOLCHAIN_DEPS=(gcc-toolset-14-binutils gcc-toolset-14-gcc gcc-toolset-14-gcc-c++ gcc-toolset-14-gcc-gfortran gcc-toolset-14-libatomic-devel)
 	else
 		# TODO enable gcc-toolset-15 once available (probably in 10.1)
 		# TOOLCHAIN_DEPS=(gcc-toolset-15-binutils gcc-toolset-15-gcc gcc-toolset-15-gcc-c++ gcc-toolset-15-gcc-gfortran gcc-toolset-15-libatomic-devel)
 		TOOLCHAIN_DEPS=(binutils gcc gcc-c++ gcc-gfortran libatomic)
+	fi
+	if [ "${AUDITWHEEL_ARCH}" == "loongarch64" ]; then
+		dnf -y install cracklib-dicts dejavu-sans-fonts info langpacks-core-font-en libpciaccess-devel pcre-devel perl-FindBin perl-IO-Socket-SSL perl-Mozilla-CA perl-NDBM_File perl-subs
 	fi
 elif [ "${OS_ID_LIKE}" == "debian" ]; then
 	TOOLCHAIN_DEPS+=(binutils gcc g++ gfortran libatomic1)
