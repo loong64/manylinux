@@ -168,9 +168,13 @@ elif [ "${MANYLINUX_BUILD_FRONTEND}" == "docker-buildx" ]; then
 		USE_LOCAL_CACHE=1
 		CACHE_STORE="--cache-to=type=local,dest=$(pwd)/.buildx-cache-staging-${POLICY}_${PLATFORM},mode=max,compression=zstd,compression-level=22"
 	fi
+	if [ "${PLATFORM}" == "loongarch64" ]; then
+		USE_LOCAL_CACHE=0
+		CACHE_STORE="--cache-to=type=registry,ref=ghcr.io/loong64/manylinux-cache:${POLICY}_${PLATFORM}_main,mode=max,compression=zstd,compression-level=22"
+	fi
 	docker buildx build \
 		--load \
-		"--cache-from=type=registry,ref=ghcr.io/pypa/manylinux-cache:${POLICY}_${PLATFORM}_main" \
+		"--cache-from=type=registry,ref=ghcr.io/loong64/manylinux-cache:${POLICY}_${PLATFORM}_main" \
 		"--cache-from=type=local,src=$(pwd)/.buildx-cache-${POLICY}_${PLATFORM}" \
 		"${CACHE_STORE}" \
 		"${BUILD_ARGS_COMMON[@]}"
