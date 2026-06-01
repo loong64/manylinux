@@ -19,5 +19,7 @@ cmake==4.4.3 \
     --hash=sha256:c0d2ccd8f83605fedfd688bb37b4cb4008a7ddf6c32321b9c804168031a3cc74 \
     --hash=sha256:cd58e9d3d6b4372d2456da43f2eb74e4ff5fe7d700bbcaede290a09db3790b1e \
     --hash=sha256:d36c9bb471a67970b031d45b29c3b852f14bc8b64ac46b39ccc046fdf652f36d \
-    --hash=sha256:f5aead3c09bfa662da5d1d65f6c526a449966314913039ce6de3c0ff82ea9266
+    --hash=sha256:f5aead3c09bfa662da5d1d65f6c526a449966314913039ce6de3c0ff82ea9266 \
+    --hash=sha256:d299b69c03f19e93ca603f66b8fd63ca4e849cc7ab4598bb05381d6ef62250c2 \
+    --hash=sha256:4d5cf292fe02e45aef05759a51f75cb7f8c65d6aed487488807b23c5dd3070c7
     # via -r .nox/update_python_dependencies/tmp/cmake.in
