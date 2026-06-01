@@ -18,5 +18,7 @@ swig==4.5.1 \
     --hash=sha256:c64fc04ce195c41408a72990f5e85eb320ad9093028280f39049c64bccf8a1aa \
     --hash=sha256:cc174e318c713fa6e813085ef4b6a6fba354ddfca53ca14d188ff956fc546dea \
     --hash=sha256:e0cdc78a984dac35aa78091234e5d62909741ec63df6d03b0764075248cb7845 \
-    --hash=sha256:ffdde0c2ca9e35792c4416abb087029d559399aa897d362c2bcb77e80c4efc16
+    --hash=sha256:ffdde0c2ca9e35792c4416abb087029d559399aa897d362c2bcb77e80c4efc16 \
+    --hash=sha256:8eaa7d84a733c27fe1f3971521e4422986b76b697afc11ccae63555ca5aa722d \
+    --hash=sha256:f119a80b3765c4f660308afc2b1b5f2f802c889edbab37a8f897b92048890c84
     # via -r .nox/update_python_dependencies/tmp/swig.in

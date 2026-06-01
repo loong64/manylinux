@@ -75,7 +75,7 @@ elif [ "${POLICY}" == "manylinux_2_39" ]; then
 elif [ "${POLICY}" == "musllinux_1_2" ]; then
 	BASEIMAGE="alpine:3.22"
 	case "${PLATFORM}" in
-		loongarch64) BASEIMAGE="registry.alpinelinux.org/img/alpine:3.22";;
+		loongarch64) BASEIMAGE="ghcr.io/loong64/alpine:3.22";;
 	esac
 	DEVTOOLSET_ROOTPATH=
 	PREPEND_PATH=
@@ -168,9 +168,13 @@ elif [ "${MANYLINUX_BUILD_FRONTEND}" == "docker-buildx" ]; then
 		USE_LOCAL_CACHE=1
 		CACHE_STORE="--cache-to=type=local,dest=$(pwd)/.buildx-cache-staging-${POLICY}_${PLATFORM},mode=max,compression=zstd,compression-level=22"
 	fi
+	if [ "${PLATFORM}" == "loongarch64" ]; then
+		USE_LOCAL_CACHE=0
+		CACHE_STORE="--cache-to=type=registry,ref=ghcr.io/loong64/manylinux-cache:${POLICY}_${PLATFORM}_main,mode=max,compression=zstd,compression-level=22"
+	fi
 	docker buildx build \
 		--load \
-		"--cache-from=type=registry,ref=ghcr.io/pypa/manylinux-cache:${POLICY}_${PLATFORM}_main" \
+		"--cache-from=type=registry,ref=ghcr.io/loong64/manylinux-cache:${POLICY}_${PLATFORM}_main" \
 		"--cache-from=type=local,src=$(pwd)/.buildx-cache-${POLICY}_${PLATFORM}" \
 		"${CACHE_STORE}" \
 		"${BUILD_ARGS_COMMON[@]}"
