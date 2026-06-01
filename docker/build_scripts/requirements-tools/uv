@@ -19,5 +19,7 @@ uv==0.13.4 \
     --hash=sha256:d86a5dec8ab30c70519c71ca5085c8aaf28664836cbc600951cedaa3fc678cbf \
     --hash=sha256:deffa5a4afdb48f3e44fb26e80377d256b330ddcad0373daff4b54f6162b43a4 \
     --hash=sha256:e90ab42825587821096cb0d071e387468da38cfa22818c91f9c0b3c0453048e8 \
-    --hash=sha256:fb0e2028d9a8929884344afb7d91d0f65d9783f640d28aede89fca3602bedde9
+    --hash=sha256:fb0e2028d9a8929884344afb7d91d0f65d9783f640d28aede89fca3602bedde9 \
+    --hash=sha256:56d413c2c0d0ab063c4edda7871fb51d2aab531dd5b0cd0a302f3cba25855641 \
+    --hash=sha256:3daf06ed302bcd356229d71a6f29e1d02cbe320a1d8a15147916590ea8f8c0a8
     # via -r .nox/update_python_dependencies/tmp/uv.in
