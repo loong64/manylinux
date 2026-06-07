@@ -140,6 +140,9 @@ elif [ "${OS_ID_LIKE}" == "rhel" ]; then
 		# TOOLCHAIN_DEPS=(gcc-toolset-15-binutils gcc-toolset-15-gcc gcc-toolset-15-gcc-c++ gcc-toolset-15-gcc-gfortran gcc-toolset-15-libatomic-devel)
 		TOOLCHAIN_DEPS=(binutils gcc gcc-c++ gcc-gfortran libatomic)
 	fi
+	if [ "${AUDITWHEEL_ARCH}" == "loongarch64" ]; then
+		dnf -y install acl binutils cryptsetup-libs info langpacks-en libnsl2 perl-FindBin perl-IO-Socket-SSL perl-Mozilla-CA perl-NDBM_File perl-subs yum
+	fi
 elif [ "${OS_ID_LIKE}" == "debian" ]; then
 	TOOLCHAIN_DEPS+=(binutils gcc g++ gfortran libatomic1)
 	BASE_TOOLS+=(gpg gpg-agent hardlink hostname locales xz-utils)
