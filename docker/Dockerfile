@@ -119,8 +119,8 @@ RUN --mount=type=bind,from=static_clang,target=/tmp/cross-compiler,ro \
 FROM build_base AS build_sqlite3
 COPY build_scripts/build-sqlite3.sh /opt/_internal/build_scripts/
 RUN --mount=type=bind,from=static_clang,target=/tmp/cross-compiler,ro \
-    export SQLITE_AUTOCONF_ROOT=sqlite-autoconf-3530200 && \
-    export SQLITE_AUTOCONF_HASH=588ad51949419a56ebe81fe56193d510c559eb94c9a57748387860b5d3069316 && \
+    export SQLITE_AUTOCONF_ROOT=sqlite-autoconf-3530300 && \
+    export SQLITE_AUTOCONF_HASH=c917d7db16648ec95f714974ace5e5dcf46b7dc70e26600a0a102a3141125db0 && \
     export SQLITE_AUTOCONF_DOWNLOAD_URL=https://www.sqlite.org/2026 && \
     /tmp/cross-compiler/entrypoint /opt/_internal/build_scripts/build-sqlite3.sh
 
